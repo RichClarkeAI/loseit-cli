@@ -1,5 +1,9 @@
 # Lose It! CLI
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![GitHub stars](https://img.shields.io/github/stars/RichClarkeAI/loseit-cli?style=social)](https://github.com/RichClarkeAI/loseit-cli/stargazers)
+
 Unofficial command-line tools for Lose It! - download your data, log foods, and analyze your nutrition history.
 
 ⚠️ **Unofficial & Experimental** - This is a reverse-engineered implementation of Lose It's private API. Use at your own risk.
