@@ -122,6 +122,11 @@ python3 loseit-log.py "coffee black" -m breakfast --pick 1 --date 2026-02-01
 python3 loseit-log.py "banana" -m snacks --pick 1 --debug
 ```
 
+## Documentation
+
+- **[Usage Examples](docs/EXAMPLES.md)** - Real command examples with output
+- **[Reverse Engineering Deep-Dive](docs/REVERSE_ENGINEERING.md)** - How we built this
+
 ## How It Works
 
 ### Authentication
