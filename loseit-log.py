@@ -788,7 +788,7 @@ def build_update_food_log_entry_payload(unsaved, meal_ordinal: int, day_key: str
     parts += [
         "27", servings_int, "1",
         "28", str(int(measure)), "1",
-        "1", "2", "0",
+        "1", servings_int, "0",
         "P__________",
         (unsaved.get("day_key") or day_key or ""),
         "16", "17", "16",
