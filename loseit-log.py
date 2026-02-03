@@ -451,10 +451,50 @@ def search_foods(session, query, debug=False):
     return foods
 
 
+def load_personal_db():
+    """Load personal food database from CSV export"""
+    import json
+    db_path = os.path.expanduser("~/clawd/integrations/loseit/data/personal-food-db.json")
+    if os.path.exists(db_path):
+        with open(db_path, 'r') as f:
+            return json.load(f)
+    return {}
+
+
+def get_personal_match(food_name, personal_db):
+    """Check if food matches personal history"""
+    from difflib import SequenceMatcher
+    
+    # Exact match
+    if food_name in personal_db:
+        return personal_db[food_name]
+    
+    # Fuzzy match (75% threshold)
+    best_match = None
+    best_score = 0
+    food_lower = food_name.lower()
+    
+    for known_food in personal_db.keys():
+        score = SequenceMatcher(None, food_lower, known_food.lower()).ratio()
+        if score > best_score and score >= 0.75:
+            best_score = score
+            best_match = known_food
+    
+    if best_match:
+        data = personal_db[best_match].copy()
+        data['matched_name'] = best_match
+        return data
+    
+    return None
+
+
 def display_results(foods, limit=15):
     if not foods:
         print("  No results found.")
         return
+
+    personal_db = load_personal_db()
+    has_personal = len(personal_db) > 0
 
     print(f"\n{'#':>3}  {'Food':50} {'Brand'}")
     print(f"{'─'*3}  {'─'*50} {'─'*20}")
@@ -465,6 +505,15 @@ def display_results(foods, limit=15):
             print(f"{i+1:>3}  {name:50} {brand}")
         else:
             print(f"{i+1:>3}  {name}")
+        
+        # Show personal history if available
+        if has_personal:
+            match = get_personal_match(f.get('name') or '', personal_db)
+            if match:
+                qty = match.get('typical_qty', 0)
+                unit = match.get('unit', '')
+                cal = match.get('calories', 0)
+                print(f"       📍 You usually log: {qty} {unit} = {cal:.0f} cal")
 
 
 # ─── getInitializationData (for DayDate key) ────────────────────────────────
