@@ -656,18 +656,20 @@ def parse_unsaved_food_log_entry(tokens, string_table):
                     out["nutrients"][ord_] = val
 
     # Serving: look for FoodServingSize ref pattern
+    # Pattern: <measure_ordinal>, <FoodMeasure_ref>, <count>, <qty>, <FoodServingSize_ref>
+    # So qty is immediately BEFORE FoodServingSize_ref
     if serving_size_ref:
-        for i in range(len(tokens) - 2):
+        for i in range(1, len(tokens)):
             if tokens[i] == serving_size_ref:
-                if i + 1 < len(tokens) and isinstance(tokens[i+1], (int, float)):
-                    out["serving_qty"] = float(tokens[i+1])
+                if i > 0 and isinstance(tokens[i-1], (int, float)):
+                    out["serving_qty"] = float(tokens[i-1])
                 break
 
-    # FoodMeasure ordinal
+    # FoodMeasure ordinal: 1 position BEFORE the FoodMeasure_ref
     if food_measure_ref:
-        for i in range(len(tokens) - 1):
-            if tokens[i] == food_measure_ref and isinstance(tokens[i+1], int):
-                out["food_measure_ordinal"] = int(tokens[i+1])
+        for i in range(1, len(tokens)):
+            if tokens[i] == food_measure_ref and isinstance(tokens[i-1], int):
+                out["food_measure_ordinal"] = int(tokens[i-1])
                 break
 
     return out
