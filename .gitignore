@@ -1,0 +1,21 @@
+# Sensitive data
+~/.config/loseit/token
+data/export/
+data/*.zip
+data/*.json
+data/captured-requests/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Playwright
+.openclaw/playwright-loseit/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
